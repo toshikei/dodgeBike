@@ -8,6 +8,7 @@ var res = {
     under_png:"res/land.png",*/
     TitleBG_png:"res/title1.png",
     Title_png:"res/Title.png",
+    fin_png:"res/fin1.png",
     start_png:"res/start.png",
 
     bike_png : "res/bike.png",
@@ -16,6 +17,9 @@ var res = {
     icon2_png : "res/courseicon2.png",
     help_png : "res/help.png",
 
+    enemy0 : "res/enemy0.png",
+    enemy1 : "res/enemy1.png",
+    enemy2 : "res/enemy2.png",
     bgm_main : "res/bgm_main.mp3",
     se_bang : "res/se_bang.mp3"
 

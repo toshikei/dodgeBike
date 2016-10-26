@@ -1,4 +1,5 @@
-var help = cc.Layer.extend({
+//help画面
+var Help = cc.Layer.extend({
   ctor: function(){
     this._super();
     var size = cc.director.getWinSize();
@@ -33,16 +34,17 @@ var help = cc.Layer.extend({
  },
  onTouchMoved: function(touch, event) {},
  onTouchEnded: function(touch, event) {
-     return true;
-     //cc.director.runScene(new selectScene());
+     //return true;
+     cc.director.runScene(new selectScene());
  },
 });
+
 
   var helpScene = cc.Scene.extend({
     onEnter: function(){
       this._super();
 
-      var helplayer = new help();
+      var helplayer = new Help();
       this.addChild(helplayer);
     }
   });

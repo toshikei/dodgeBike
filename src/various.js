@@ -2,10 +2,10 @@
 //ステージセレクト画面
 var start_flg1 = false;
 var start_flg2 = false;
-var help_flg = false;
+var help1_flg = false;
 var icon1;
 var icon2;
-var help;
+var help1;
 
 var select = cc.Layer.extend({
   ctor: function(){
@@ -41,11 +41,11 @@ var select = cc.Layer.extend({
      icon2.setTag(2);
      this.addChild(icon2,0);
 
-      help = new cc.Sprite(res.help_png);
-      help.setScale(0.5);
-      help.setPosition(cc.p(size.width * 0.8, size.height * 0.1));
-      help.setTag(3);
-      this.addChild(help,0);
+      help1 = new cc.Sprite(res.help_png);
+      help1.setScale(0.5);
+      help1.setPosition(cc.p(size.width * 0.8, size.height * 0.1));
+      help1.setTag(3);
+      this.addChild(help1,0);
 
 
     // タップイベントリスナーを登録する
@@ -60,12 +60,17 @@ var select = cc.Layer.extend({
  },
  onTouchBegan: function(touch, event) {
  var SB1 = icon1.getBoundingBox();
+ var SB2 = icon2.getBoundingBox();
+ var HLB = help1.getBoundingBox();
    var target = event.getCurrentTarget();
 
    console.log(target.getTag() + "Btnがタッチされました");
    if (cc.rectContainsPoint(SB1, touch.getLocation())) {
       start_flg1 = true;
     }
+    if (cc.rectContainsPoint(SB2, touch.getLocation())) {
+       start_flg2 = true;
+     }
 
 /*    if(target.getTag()　 == 1) {
       start_flg1 = true;
@@ -76,9 +81,10 @@ var select = cc.Layer.extend({
     */
     else {
       //タグでの実験
-      if (target.getTag() == 3) {
-      help_flg = true;
+     if (cc.rectContainsPoint(HLB, touch.getLocation())) {
+      help1_flg = true;
     }
+
   }
    return true;
  },
@@ -88,13 +94,13 @@ var select = cc.Layer.extend({
       start_flg1 = false;
       cc.director.runScene(new gameScene());
     }
-  /*  if(start_flg2){
+    if(start_flg2){
        start_flg2 = false;
        cc.director.runScene(new gameScene2());
      }
-     */
-     if(help_flg){
-        help_flg = false;
+
+     else if (help1_flg){
+        help1_flg = false;
         cc.director.runScene(new helpScene());
       }
      //return true;

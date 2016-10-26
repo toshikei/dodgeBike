@@ -1,15 +1,13 @@
-//app.js
-//レースコースのゲーム画面
+//app2.js
+//街のゲーム画面
 var size;
-
 var mylabel;
 //背景スクロールで追加した部分
-var gameLayer;
+var gameLayer2;
 var background;
 var scrollSpeed = 15;
 var score = 0;
 var LIFE = 3;
-//宇宙船で追加した部分　重力
 var bike;
 var i =0
 //宇宙船を操作するで追加した部分 エンジンの推進力
@@ -24,14 +22,14 @@ var detectedX;　 //現在タッチしているX座標
 var savedX;　 //前回タッチしていたX座標
 var touching = false;　 //タッチ状況管理用flag
 
-var gameScene = cc.Scene.extend({
+var gameScene2 = cc.Scene.extend({
 
   onEnter: function() {
     this._super();
 
-    gameLayer = new game();
-    gameLayer.init();
-    this.addChild(gameLayer);
+    gameLayer2 = new game2();
+    gameLayer2.init();
+    this.addChild(gameLayer2);
 
     /* hpdisp = new LIFEdisp();
     hpdisp.init();
@@ -42,7 +40,7 @@ var gameScene = cc.Scene.extend({
 });
 
 
-var game = cc.Layer.extend({
+var game2 = cc.Layer.extend({
   init: function() {
     this._super();
     size = cc.director.getWinSize();
@@ -51,7 +49,6 @@ var game = cc.Layer.extend({
         //スクロールする背景スプライトをインスタンス　スクロール速度:scrollSpeed
         background = new ScrollingBG();
         this.addChild(background);
-
       topLayer = cc.Layer.create();
       this.addChild(topLayer);
       //　bikeの設定
@@ -68,27 +65,24 @@ var game = cc.Layer.extend({
 
     //スコア設定
     //だが、スコアの設定を変えただけなので、スコアそのまま
-    ScoreText = cc.LabelTTF.create("SCORE:" + score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+    ScoreText = cc.LabelTTF.create("SCORE:" +score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     ScoreText.setScale(3);
     this.addChild(ScoreText);
     //ScoreText.setPosition(220,480);
-    ScoreText.setPosition(cc.p(size.width / 1.3, size.height / 1.1));
+    ScoreText.setPosition(cc.p(size.width / 1.2, size.height / 1.1));
 
     //life設定
-    LifeText = cc.LabelTTF.create("LIFE:" + LIFE,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+    LifeText = cc.LabelTTF.create("LIFE:","Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     LifeText.setScale(3);
     this.addChild(LifeText);
     //LifeText.setPosition(220,480);
-    LifeText.setPosition(cc.p(size.width / 6, size.height / 1.1));
+    LifeText.setPosition(cc.p(size.width / 12, size.height / 1.1));
 
 
     //scheduleUpdate関数は、描画の都度、update関数を呼び出す
     this.scheduleUpdate();
-   //敵車体の生成で追加（だが、まだ作成していない）
-    this.schedule(this.addAsteroid, 1);
-
-  //  this.schedule(this.addbike, 5);
-/*
+  /*  //敵車体の生成で追加（だが、まだ作成していない）
+    this.schedule(this.addAsteroid, 0.5);
     this.schedule(this.addSangoUp, 5);
     this.schedule(this.addSangoDown,8); */
 
@@ -138,7 +132,6 @@ var game = cc.Layer.extend({
     var sangoDown = new SangoDOWN();
     this.addChild(sangoDown);
   },
-  */
   //アイテムの生成で追加
   addAsteroid: function(event) {
     var asteroid = new Asteroid();
@@ -146,25 +139,7 @@ var game = cc.Layer.extend({
   },
   removeAsteroid: function(asteroid) {
     this.removeChild(asteroid);
-  },
-  /*
-  addbike: function(event) {
-    var AsBike = new asBike();
-    this.addChild(AsBike);
-  },
-  removebike: function(AsBike) {
-    this.removeChild(AsBike);
-  },
-  */
-  /*
-  addbike: function(event) {
-    var AsBikeUp = new asBikeUp();
-    this.addChild(AsBikeUp);
-  },
-  removebike: function(AsBikeUp) {
-    this.removeChild(AsBikeUp);
-  },
-  */
+  }, */
 });
 
 //スクロール移動する背景クラス
@@ -222,24 +197,19 @@ var ScrollingBG = cc.Sprite.extend({
 //アイテムクラス
 //今はまだ取り掛かれないが、敵出現出現したりするクラス
 //あげあげのやつをそのまま流用しているため、調整必須
-var Asteroid = cc.Sprite.extend({
+/*var Asteroid = cc.Sprite.extend({
 
   ctor: function() {
     this._super();
     //this.initWithFile(res.nagoya + Math.random());
-    rnd = Math.floor(Math.random()*2)
-    this.initWithFile("res/enemy"+rnd+".png");
-    this.setScale(3);
+    rnd = Math.floor(Math.random()*7)
+    this.initWithFile("res/nagoya"+rnd+".png");
     //this.initWithFile(res/nagoya0.png);
   },
   onEnter: function() {
     this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
-    this.setPosition(cc.p(size.width / 2, size.height));
-                       // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
-    var moveAction = cc.MoveTo.create(2, new cc.Point(Math.random() * 650 + 150));
-    //var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
+    this.setPosition(600, Math.random() * 320);
+    var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
     this.runAction(moveAction);
     this.scheduleUpdate();
   },
@@ -249,103 +219,14 @@ var Asteroid = cc.Sprite.extend({
     var asteroidBoundingBox = this.getBoundingBox();
     //rectIntersectsRectは２つの矩形が交わっているかチェックする
     if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox) && bike.invulnerability == 0) {
-      gameLayer.removeAsteroid(this); //アイテムを削除する
+      gameLayer2.removeAsteroid(this); //アイテムを削除する
 
       //効果音を再生する
       //audioEngine.playEffect(res.se_get);
     }
     //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().y < 10) {
-      gameLayer.removeAsteroid(this)
-    }
-  }
-});
-
-/*
-var asBike = cc.Sprite.extend({
-
-  ctor: function() {
-    this._super();
-    //this.initWithFile(res.nagoya + Math.random());
-    this.initWithFile(res.enemy2);
-    this.setScale(3);
-    //this.initWithFile(res/nagoya0.png);
-  },
-  onEnter: function() {
-    this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
-    this.setPosition(cc.p(size.width / 4, size.height));
-                       // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
-      var moveAction = cc.MoveTo.create(2, cc.p(size.width, size.height));
-
-    //var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
-    this.runAction(moveAction);
-    this.scheduleUpdate();
-  },
-  update: function(dt) {
-    //衝突を判定する処理
-    var bikeBoundingBox = bike.getBoundingBox();
-    var asteroidBoundingBox = this.getBoundingBox();
-    //rectIntersectsRectは２つの矩形が交わっているかチェックする
-    if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox) && bike.invulnerability == 0) {
-      gameLayer.removeAsteroid(this); //アイテムを削除する
-
-      //効果音を再生する
-      //audioEngine.playEffect(res.se_get);
-      LIFE--;
-      if(LIFE < 1){
-        //audioEngine.stopMusic();
-        gameover.score = score;
-        cc.director.runScene(new gameover());
-      }
-    }
-    //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().y < 10) {
-      gameLayer.removeAsteroid(this)
-    }
-  }
-});
-*/
-/*
-var asBikeUp = cc.Sprite.extend({
-
-  ctor: function() {
-    this._super();
-    //this.initWithFile(res.nagoya + Math.random());
-    this.initWithFile(res.enemy2);
-    this.setScale(3);
-    //this.initWithFile(res/nagoya0.png);
-  },
-  onEnter: function() {
-    this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
-    this.setPosition(cc.p(size.width / 2, size.height));
-                       // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
-    if (Math.random() < 2){
-      var moveAction = cc.MoveTo.create(10, cc.p(size.width * 10, size.height));
-    }else {
-      var moveAction = cc.MoveTo.create(2, cc.p(size.width, size.height));
-    }
-    //var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
-    this.runAction(moveAction);
-    this.scheduleUpdate();
-  },
-  update: function(dt) {
-    //衝突を判定する処理
-    var bikeBoundingBox = bike.getBoundingBox();
-    var asbike2BoundingBox = this.getBoundingBox();
-    //rectIntersectsRectは２つの矩形が交わっているかチェックする
-    if (cc.rectIntersectsRect(bikeBoundingBox, asbike2BoundingBox) && bike.invulnerability == 0) {
-      gameLayer.removeAsteroid(this); //アイテムを削除する
-
-      //効果音を再生する
-      //audioEngine.playEffect(res.se_get);
-    }
-    //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().x < 0) {
-      gameLayer.removeAsteroid(this)
+    if (this.getPosition().x < -50) {
+      gameLayer2.removeAsteroid(this)
     }
   }
 });
@@ -359,18 +240,12 @@ function restartGame() {
 
     LIFE = 3;
     //BGM終わり
-    /*  audioEngine.stopMusic();
+      audioEngine.stopMusic();
       audioEngine.stopAllEffects();
-*/
+
     //GameOverSceneへ
     cc.director.runScene(new GameOverScene());
   }
 
 
 }
-// SCOREを増やす
-/*
-function (){
-
-}
-*/
