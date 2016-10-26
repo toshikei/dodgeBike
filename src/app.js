@@ -1,5 +1,5 @@
 //app.js
-
+//レースコースのゲーム画面
 var size;
 
 var mylabel;
@@ -65,13 +65,13 @@ var game = cc.Layer.extend({
       //車体の移動のため　Update関数を1/60秒ごと実行させる　
       this.scheduleUpdate();
 
-    //time設定
+    //スコア設定
     //だが、スコアの設定を変えただけなので、スコアそのまま
-    TimeText = cc.LabelTTF.create("TIME:" +score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
-    TimeText.setScale(3);
-    this.addChild(TimeText);
-    //TimeText.setPosition(220,480);
-    TimeText.setPosition(cc.p(size.width / 1.2, size.height / 1.1));
+    ScoreText = cc.LabelTTF.create("SCORE:" +score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+    ScoreText.setScale(3);
+    this.addChild(ScoreText);
+    //ScoreText.setPosition(220,480);
+    ScoreText.setPosition(cc.p(size.width / 1.2, size.height / 1.1));
 
     //life設定
     LifeText = cc.LabelTTF.create("LIFE:","Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
@@ -114,7 +114,15 @@ var game = cc.Layer.extend({
       }
       bike.setPosition(bike.getPosition().x + xSpeed, bike.getPosition().y);
     }
+    // bikeが画面外に出たらゲームオーバーにさせる処理
+  /*  if(bike.getPosition().x < 0 || bike.getPosition().x > winSize.width){
+      cc.director.runScene(new GameOverScene());
+      return;
+    }
+    */
   },
+
+
   /*
   //珊瑚上の生成で追加
   addSangoUp: function(event) {
@@ -147,6 +155,7 @@ var ScrollingBG = cc.Sprite.extend({
     onEnter: function() {
         //背景画像の描画開始位置
         this.setPosition(size.width / 2, size.height);
+      //  this.setScale(winSize.width / size.width, winSize.height / size.height);
         //  this.setPosition(480,160);
     },
     scroll: function() {

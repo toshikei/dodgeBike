@@ -5,7 +5,10 @@
     <script type="text/javascript" src="cocos2d-js-v3.11.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/resource.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/app.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="src/ThirdScene.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/title.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/various.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/help.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/GameScene.js" charset="UTF-8"></script>
 </head>
 <body>
     <canvas id="gameCanvas" ></canvas>
@@ -16,11 +19,12 @@
                   // プログラムの画面全体を表示領域の画面に合わせる　Adjust viewport meta
                    cc.view.adjustViewPort(true);
                   //画面の縦横比をドットで指定する  ターゲットの解像度を指定し、ゲームキャンバスをブラウザのウインドサイズに合わせる
-                   cc.view.setDesignResolutionSize(1440, 960, cc.ResolutionPolicy.SHOW_ALL);
+                  // 縦:1440  横:960にする？
+                   cc.view.setDesignResolutionSize(960, 1440, cc.ResolutionPolicy.SHOW_ALL);
                   // 表示領域がリサイズされた場合、自動的にプログラムの画面をリサイズさせる
                   cc.view.resizeWithBrowserSize(true);
                   cc.LoaderScene.preload(g_resources, function () {
-                       cc.director.runScene(new gameScene());
+                       cc.director.runScene(new title/*select gameScene title help*/());
                   }, this);
               };
               cc.game.run("gameCanvas");
