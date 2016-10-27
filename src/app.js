@@ -85,7 +85,7 @@ var game = cc.Layer.extend({
     //scheduleUpdate関数は、描画の都度、update関数を呼び出す
     this.scheduleUpdate();
    //敵車体の生成で追加（だが、まだ作成していない）
-    this.schedule(this.addAsteroid, 1);
+    this.schedule(this.addAsteroid, 1.5);
 
   //  this.schedule(this.addbike, 5);
 /*
@@ -234,8 +234,6 @@ var Asteroid = cc.Sprite.extend({
   },
   onEnter: function() {
     this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
     this.setPosition(cc.p(size.width / 2, size.height));
                        // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
     var moveAction = cc.MoveTo.create(2, new cc.Point(Math.random() * 650 + 150));
@@ -250,12 +248,20 @@ var Asteroid = cc.Sprite.extend({
     //rectIntersectsRectは２つの矩形が交わっているかチェックする
     if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox) && bike.invulnerability == 0) {
       gameLayer.removeAsteroid(this); //アイテムを削除する
+/*
+      LIFE--;
+      if(LIFE < 1){
+        //audioEngine.stopMusic();
+        gameover.score = score;
+        cc.director.runScene(new gameover());
 
       //効果音を再生する
       //audioEngine.playEffect(res.se_get);
     }
+    */
+    }
     //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().y < 10) {
+    if (this.getPosition().y < 1) {
       gameLayer.removeAsteroid(this)
     }
   }
