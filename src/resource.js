@@ -21,7 +21,10 @@ var res = {
     enemy1 : "res/enemy1.png",
     enemy2 : "res/enemy2.png",
     bgm_main : "res/bgm_main.mp3",
-    se_bang : "res/se_bang.mp3"
+    se_bang : "res/se_bang.mp3",
+
+    nagoya01: "res/nagoya0.png",
+    nagoya02: "res/nagoya1.png",
 
 };
 

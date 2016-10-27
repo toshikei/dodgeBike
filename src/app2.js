@@ -63,20 +63,20 @@ var game2 = cc.Layer.extend({
       //車体の移動のため　Update関数を1/60秒ごと実行させる　
       this.scheduleUpdate();
 
-    //スコア設定
-    //だが、スコアの設定を変えただけなので、スコアそのまま
-    ScoreText = cc.LabelTTF.create("SCORE:" +score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
-    ScoreText.setScale(3);
-    this.addChild(ScoreText);
-    //ScoreText.setPosition(220,480);
-    ScoreText.setPosition(cc.p(size.width / 1.2, size.height / 1.1));
+      //スコア設定
+      //だが、スコアの設定を変えただけなので、スコアそのまま
+      ScoreText = cc.LabelTTF.create("SCORE:" + score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+      ScoreText.setScale(3);
+      this.addChild(ScoreText);
+      //ScoreText.setPosition(220,480);
+      ScoreText.setPosition(cc.p(size.width / 1.3, size.height / 1.1));
 
-    //life設定
-    LifeText = cc.LabelTTF.create("LIFE:","Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
-    LifeText.setScale(3);
-    this.addChild(LifeText);
-    //LifeText.setPosition(220,480);
-    LifeText.setPosition(cc.p(size.width / 12, size.height / 1.1));
+      //life設定
+      LifeText = cc.LabelTTF.create("LIFE:" + LIFE,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+      LifeText.setScale(3);
+      this.addChild(LifeText);
+      //LifeText.setPosition(220,480);
+      LifeText.setPosition(cc.p(size.width / 6, size.height / 1.1));
 
 
     //scheduleUpdate関数は、描画の都度、update関数を呼び出す
