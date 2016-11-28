@@ -4,8 +4,8 @@
     <title>Hello Cocos2d-JS</title>
     <script type="text/javascript" src="cocos2d-js-v3.11.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/resource.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="src/app.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="src/app2.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/Game/app.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="src/Game/app2.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/title.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/various.js" charset="UTF-8"></script>
     <script type="text/javascript" src="src/help.js" charset="UTF-8"></script>
@@ -25,8 +25,8 @@
                   // 表示領域がリサイズされた場合、自動的にプログラムの画面をリサイズさせる
                   cc.view.resizeWithBrowserSize(true);
                   cc.LoaderScene.preload(g_resources, function () {
-                       cc.director.runScene(new title
-          /*title select gameScene gameScene2 title help GameOver GameClear*/());
+                       cc.director.runScene(new GameOver
+          /*title select gameScene gameScene2 title help GameOver*/());
                   }, this);
               };
               cc.game.run("gameCanvas");

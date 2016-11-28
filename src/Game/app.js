@@ -8,21 +8,25 @@ var gameLayer;
 var background;
 var scrollSpeed = 15;
 var score = 0;
+//時間
+var time = 0;
+var sec = 0;
+
 var LIFE = 3;
 //宇宙船で追加した部分　重力
 var bike;
 var i =0
-//宇宙船を操作するで追加した部分 エンジンの推進力
-var gameThrust = 0.1;
 //パーティクル
 var emitter;
-var audioEngine;
+//var audioEngine;
 
 var xSpeed = 0; //カートの移動速度
 
 var detectedX;　 //現在タッチしているX座標
 var savedX;　 //前回タッチしていたX座標
 var touching = false;　 //タッチ状況管理用flag
+//経過時間
+var startTime = new Date;
 
 var gameScene = cc.Scene.extend({
 
@@ -54,21 +58,22 @@ var game = cc.Layer.extend({
 
       topLayer = cc.Layer.create();
       this.addChild(topLayer);
+
       //　bikeの設定
       bike = cc.Sprite.create(res.bike_png);
+
       bike.setScale(3);
       topLayer.addChild(bike, 0);
       bike.setPosition(cc.p(size.width / 2, size.height / 6));
-      //宇宙船を操作するで追加した部分
       //Bikeに無敵時間を追加したいので今はコメントアウト
-     //  this.invulnerability = 0; //無敵モード時間　初期値0
+      // this.invulnerability = 0; //無敵モード時間　初期値0
       cc.eventManager.addListener(touchListener, this);
       //車体の移動のため　Update関数を1/60秒ごと実行させる　
       this.scheduleUpdate();
 
     //スコア設定
     //だが、スコアの設定を変えただけなので、スコアそのまま
-    ScoreText = cc.LabelTTF.create("SCORE:" + score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
+    ScoreText = cc.LabelTTF.create("SCORE:" + time ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     ScoreText.setScale(3);
     this.addChild(ScoreText);
     //ScoreText.setPosition(220,480);
@@ -78,7 +83,6 @@ var game = cc.Layer.extend({
     LifeText = cc.LabelTTF.create("LIFE:" + LIFE,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     LifeText.setScale(3);
     this.addChild(LifeText);
-    //LifeText.setPosition(220,480);
     LifeText.setPosition(cc.p(size.width / 6, size.height / 1.1));
 
 
@@ -86,11 +90,6 @@ var game = cc.Layer.extend({
     this.scheduleUpdate();
    //敵車体の生成で追加（だが、まだ作成していない）
     this.schedule(this.addAsteroid, 1.5);
-
-  //  this.schedule(this.addbike, 5);
-/*
-    this.schedule(this.addSangoUp, 5);
-    this.schedule(this.addSangoDown,8); */
 
   },
   update: function(dt) {
@@ -119,26 +118,14 @@ var game = cc.Layer.extend({
       bike.setPosition(bike.getPosition().x + xSpeed, bike.getPosition().y);
     }
     // bikeが画面外に出たらゲームオーバーにさせる処理
-  /*  if(bike.getPosition().x < 0 || bike.getPosition().x > winSize.width){
+    if(bike.getPosition().x < 0 || bike.getPosition().x > size.width - 10){
       cc.director.runScene(new GameOverScene());
       return;
     }
-    */
+
   },
 
 
-  /*
-  //珊瑚上の生成で追加
-  addSangoUp: function(event) {
-    var sangoUp = new SangoUP();
-    this.addChild(sangoUp);
-  },
-  //珊瑚下の生成で追加
-  addSangoDown: function(event) {
-    var sangoDown = new SangoDOWN();
-    this.addChild(sangoDown);
-  },
-  */
   //アイテムの生成で追加
   addAsteroid: function(event) {
     var asteroid = new Asteroid();
@@ -147,24 +134,6 @@ var game = cc.Layer.extend({
   removeAsteroid: function(asteroid) {
     this.removeChild(asteroid);
   },
-  /*
-  addbike: function(event) {
-    var AsBike = new asBike();
-    this.addChild(AsBike);
-  },
-  removebike: function(AsBike) {
-    this.removeChild(AsBike);
-  },
-  */
-  /*
-  addbike: function(event) {
-    var AsBikeUp = new asBikeUp();
-    this.addChild(AsBikeUp);
-  },
-  removebike: function(AsBikeUp) {
-    this.removeChild(AsBikeUp);
-  },
-  */
 });
 
 //スクロール移動する背景クラス
@@ -190,12 +159,6 @@ var ScrollingBG = cc.Sprite.extend({
         }
     }
 });
-    //無敵モード中の視覚効果
-    /*if (this.invulnerability > 0) {
-      this.invulnerability--;
-      this.setOpacity(255 - this.getOpacity());
-    } */
-
 
   //バーチャルアナログパッド用のタッチリスナーの実装
   var touchListener = cc.EventListener.create({
@@ -246,137 +209,26 @@ var Asteroid = cc.Sprite.extend({
     var bikeBoundingBox = bike.getBoundingBox();
     var asteroidBoundingBox = this.getBoundingBox();
     //rectIntersectsRectは２つの矩形が交わっているかチェックする
-    if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox) && bike.invulnerability == 0) {
+    if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox)
+    /* && bike.invulnerability == 0*/) {
       gameLayer.removeAsteroid(this); //アイテムを削除する
-/*
-      LIFE--;
-      if(LIFE < 1){
-        //audioEngine.stopMusic();
-        gameover.score = score;
-        cc.director.runScene(new gameover());
-
-      //効果音を再生する
-      //audioEngine.playEffect(res.se_get);
-    }
-    */
-    }
+      //
+      LIFE　-= 1;
+      LifeText.setString("LIFE:"+ LIFE);
+      if(LIFE == 0){
+//        LIFE = 3;
+        //GameOverSceneへ
+        cc.director.runScene(new GameOverScene());
+      }
+      }
     //画面の外にでたアイテムを消去する処理
     if (this.getPosition().y < 1) {
       gameLayer.removeAsteroid(this)
     }
-  }
+    this.time += dt;
+    if(this.time >= 1){
+      this.sec++;
+       ScoreText.setString("SCORE"+ sco);
+    }
+  },
 });
-
-/*
-var asBike = cc.Sprite.extend({
-
-  ctor: function() {
-    this._super();
-    //this.initWithFile(res.nagoya + Math.random());
-    this.initWithFile(res.enemy2);
-    this.setScale(3);
-    //this.initWithFile(res/nagoya0.png);
-  },
-  onEnter: function() {
-    this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
-    this.setPosition(cc.p(size.width / 4, size.height));
-                       // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
-      var moveAction = cc.MoveTo.create(2, cc.p(size.width, size.height));
-
-    //var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
-    this.runAction(moveAction);
-    this.scheduleUpdate();
-  },
-  update: function(dt) {
-    //衝突を判定する処理
-    var bikeBoundingBox = bike.getBoundingBox();
-    var asteroidBoundingBox = this.getBoundingBox();
-    //rectIntersectsRectは２つの矩形が交わっているかチェックする
-    if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox) && bike.invulnerability == 0) {
-      gameLayer.removeAsteroid(this); //アイテムを削除する
-
-      //効果音を再生する
-      //audioEngine.playEffect(res.se_get);
-      LIFE--;
-      if(LIFE < 1){
-        //audioEngine.stopMusic();
-        gameover.score = score;
-        cc.director.runScene(new gameover());
-      }
-    }
-    //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().y < 10) {
-      gameLayer.removeAsteroid(this)
-    }
-  }
-});
-*/
-/*
-var asBikeUp = cc.Sprite.extend({
-
-  ctor: function() {
-    this._super();
-    //this.initWithFile(res.nagoya + Math.random());
-    this.initWithFile(res.enemy2);
-    this.setScale(3);
-    //this.initWithFile(res/nagoya0.png);
-  },
-  onEnter: function() {
-    this._super();
-//    this.setPosition(600, Math.random() * 320);
-//    ernd = Math.floor(Math.random()*2);
-    this.setPosition(cc.p(size.width / 2, size.height));
-                       // 時間,現在の位置（ｘ, ｙ）から、(Ｘ, Ｙ)の位置
-    if (Math.random() < 2){
-      var moveAction = cc.MoveTo.create(10, cc.p(size.width * 10, size.height));
-    }else {
-      var moveAction = cc.MoveTo.create(2, cc.p(size.width, size.height));
-    }
-    //var moveAction = cc.MoveTo.create(3.5, new cc.Point(-100, Math.random() * 320));
-    this.runAction(moveAction);
-    this.scheduleUpdate();
-  },
-  update: function(dt) {
-    //衝突を判定する処理
-    var bikeBoundingBox = bike.getBoundingBox();
-    var asbike2BoundingBox = this.getBoundingBox();
-    //rectIntersectsRectは２つの矩形が交わっているかチェックする
-    if (cc.rectIntersectsRect(bikeBoundingBox, asbike2BoundingBox) && bike.invulnerability == 0) {
-      gameLayer.removeAsteroid(this); //アイテムを削除する
-
-      //効果音を再生する
-      //audioEngine.playEffect(res.se_get);
-    }
-    //画面の外にでたアイテムを消去する処理
-    if (this.getPosition().x < 0) {
-      gameLayer.removeAsteroid(this)
-    }
-  }
-});
-*/
-//宇宙船を元の位置に戻して、宇宙船の変数を初期化する
-function restartGame() {
-  LIFE --;
-  hpdisp.removeChildByTag(LIFE);
-
-  if(LIFE < 0){
-
-    LIFE = 3;
-    //BGM終わり
-    /*  audioEngine.stopMusic();
-      audioEngine.stopAllEffects();
-*/
-    //GameOverSceneへ
-    cc.director.runScene(new GameOverScene());
-  }
-
-
-}
-// SCOREを増やす
-/*
-function (){
-
-}
-*/

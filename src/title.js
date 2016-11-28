@@ -18,7 +18,7 @@ var title = cc.Layer.extend({
     this.addChild(title_back_layer);
 
     //var title_label = new cc.Sprite(res.Title_png);
-    var title_label = cc.LabelTTF.create("DodgBike", "Arial", 170);
+    var title_label = cc.LabelTTF.create("DodgeBike", "Arial", 150);
     title_label.setPosition(cc.p(size.width * 0.4, size.height * 0.9));
     title_label.setColor(cc.color(255, 0, 0, 128)); //色だよ！
     this.addChild(title_label, 1);
@@ -57,7 +57,6 @@ var title = cc.Layer.extend({
 var titleScene = cc.Scene.extend({
   onEnter: function(){
     this._super();
-
     var titlelayer = new title();
     this.addChild(titlelayer);
   }

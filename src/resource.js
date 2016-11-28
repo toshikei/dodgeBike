@@ -1,11 +1,6 @@
 var res = {
     background_png : "res/course2.png",
     background1_png : "res/course3.png",
-/*    asteroid_png : "res/nagoya0.png",
-    uprock_png:"res/rock_above.png",
-    underrock_png:"res/rock_under.png",
-    up_png:"res/ceiling.png",
-    under_png:"res/land.png",*/
     TitleBG_png:"res/title1.png",
     Title_png:"res/Title.png",
     fin_png:"res/fin1.png",
@@ -13,6 +8,10 @@ var res = {
 
     bike_png : "res/bike.png",
     s_bike_png : "res/bike_s.png",
+
+//    bikes_png : "res/bikes.png",
+//    bikes_plist : "res/bikes.plist",
+
     icon1_png : "res/courseicon1.png",
     icon2_png : "res/courseicon2.png",
     help_png : "res/help.png",
@@ -25,6 +24,10 @@ var res = {
 
     nagoya01: "res/nagoya0.png",
     nagoya02: "res/nagoya1.png",
+
+    mappng: "res/aaaaaaaaa.png",
+    course1: "res/course1.tmx",
+    course2: "res/course2.tmx",
 
 };
 
