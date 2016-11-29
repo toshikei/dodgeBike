@@ -147,8 +147,6 @@ var ScrollingBG = cc.Sprite.extend({
     onEnter: function() {
         //背景画像の描画開始位置
         this.setPosition(size.width / 2, size.height);
-      //  this.setScale(winSize.width / size.width, winSize.height / size.height);
-        //  this.setPosition(480,160);
     },
     scroll: function() {
         //座標を更新する
@@ -191,9 +189,8 @@ var Asteroid = cc.Sprite.extend({
     this._super();
     //this.initWithFile(res.nagoya + Math.random());
     rnd = Math.floor(Math.random()*2)
-    this.initWithFile("res/enemy"+rnd+".png");
+    this.initWithFile("res/enemy"+ + "0" + rnd+".png");
     this.setScale(3);
-    //this.initWithFile(res/nagoya0.png);
   },
   onEnter: function() {
     this._super();
