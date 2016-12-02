@@ -51,8 +51,6 @@ var game = cc.Layer.extend({
     this._super();
     size = cc.director.getWinSize();
 
-cc.audioEngine.stopMusic();
-
         //スクロールする背景スプライトをインスタンス　スクロール速度:scrollSpeed
         background = new ScrollingBG();
         this.addChild(background);
@@ -219,11 +217,10 @@ var Asteroid = cc.Sprite.extend({
     //rectIntersectsRectは２つの矩形が交わっているかチェックする
     if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox)
     /* && bike.invulnerability == 0*/) {
+      audioEngine.preloadEffect(res.bgm03);
       gameLayer.removeAsteroid(this); //アイテムを削除する
 
-      audioEngine.preloadEffect(res.bgm03);
-
-      //
+      // Lifeの減少
       LIFE　-= 1;
       LifeText.setString("LIFE:"+ LIFE);
       if(LIFE == 0){
