@@ -1,7 +1,14 @@
+audioEngine = cc.audioEngine;
+var size;
+
 var GameOver = cc.Layer.extend({
   ctor: function(){
     this._super();
-    var size = cc.director.getWinSize();
+    size = cc.director.getWinSize();
+    if (!audioEngine.isMusicPlaying()) {
+      audioEngine.playMusic(res.bgm02, true);
+      cc.audioEngine.setEffectsVolume(0.5);
+    }
 
     label1 = cc.LabelTTF.create("GAME OVER...", "Arial", 100);
     label1.setPosition(cc.p(size.width * 0.6, size.height * 0.1));
@@ -38,14 +45,16 @@ var GameOver = cc.Layer.extend({
  onTouchMoved: function(touch, event) {},
  onTouchEnded: function(touch, event) {
      //return true;
+     cc.audioEngine.stopMusic();
+     //audioEngine.setEffectsVolume(audioEngine.getEffectsVolume() + 0.3);
      cc.director.runScene(new titleScene());
  },
-  });
+});
 
 var GameOverScene = cc.Scene.extend({
   onEnter: function(){
-    this._super;
-    var GameOverScene = new GameOver();
-    this.addChild(GameOverScene);
+    this._super();
+    var GameOverlayer = new GameOver();
+    this.addChild(GameOverlayer);
   }
 });

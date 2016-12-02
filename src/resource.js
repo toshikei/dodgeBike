@@ -23,6 +23,10 @@ var res = {
     course1: "res/course1.tmx",
     course2: "res/course2.tmx",
 
+    bgm00:"res/se/bgm_maoudamashii_8bit14.mp3",
+    bgm01:"res/se/bgm_maoudamashii_8bit13.mp3",
+    bgm02:"res/se/bgm_maoudamashii_8bit03.mp3",
+    bgm03:"res/se/se_maoudamashii_se_car044.mp3",
 };
 
 var g_resources = [];

@@ -1,14 +1,15 @@
 // title.js
 //タイトル画面
-//audioEngine = cc.audioEngine;
-
+audioEngine = cc.audioEngine;
+var size;
 var title = cc.Layer.extend({
   ctor: function(){
     this._super();
-    var size = cc.director.getWinSize();
-   /* if (!audioEngine.isMusicPlaying()) {
-      audioEngine.playMusic(res.bgm, true);
-    } */
+    size = cc.director.getWinSize();
+    if (!audioEngine.isMusicPlaying()) {
+      audioEngine.playMusic(res.bgm00, true);
+      cc.audioEngine.setEffectsVolume(0.5);
+    }
 
     var title_back = new cc.Sprite(res.TitleBG_png);
     title_back.setScale(1);
@@ -34,6 +35,22 @@ var title = cc.Layer.extend({
     Bikelayer.addChild(Bike);
     this.addChild(Bikelayer);
 
+    //点滅するラベル
+    var Start_label = cc.LabelTTF.create("Tap on start", "Arial", 100);
+    Start_label.setPosition(cc.p(size.width / 2, size.height / 2.5));
+    Start_label.setColor(cc.color(255, 255, 255, 128)); //色だよ！
+    this.addChild(Start_label, 1);
+    //点滅の処理
+    var fadeIn = cc.fadeIn(2);
+    var fadeOut = cc.fadeOut(2);
+    var seq = cc.sequence(fadeIn,fadeOut);
+    var repeat1 = cc.repeatForever(seq);
+    Start_label.runAction(repeat1);
+
+    var Start_label_layer = cc.Layer.create();
+    Start_label_layer.addChild(Start_label);
+    this.addChild(Start_label_layer);
+
     // タップイベントリスナーを登録する
      cc.eventManager.addListener({
          event: cc.EventListener.TOUCH_ONE_BY_ONE,
@@ -50,6 +67,8 @@ var title = cc.Layer.extend({
  onTouchMoved: function(touch, event) {},
  onTouchEnded: function(touch, event) {
      //return true;
+     cc.audioEngine.stopMusic();
+     //audioEngine.setEffectsVolume(audioEngine.getEffectsVolume() + 0.3);
      cc.director.runScene(new selectScene());
  },
 });

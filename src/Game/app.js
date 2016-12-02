@@ -18,15 +18,13 @@ var bike;
 var i =0
 //パーティクル
 var emitter;
-//var audioEngine;
+audioEngine = cc.audioEngine;
 
 var xSpeed = 0; //カートの移動速度
 
 var detectedX;　 //現在タッチしているX座標
 var savedX;　 //前回タッチしていたX座標
 var touching = false;　 //タッチ状況管理用flag
-//経過時間
-var startTime = new Date;
 
 var gameScene = cc.Scene.extend({
 
@@ -41,7 +39,9 @@ var gameScene = cc.Scene.extend({
     hpdisp.init();
     this.addChild(hpdisp); */
     //音楽再生エンジン
-    //audioEngine = cc.audioEngine;
+    if (!audioEngine.isMusicPlaying()) {
+      audioEngine.playMusic(res.bgm00, true);
+    }
 }
 });
 
@@ -51,6 +51,7 @@ var game = cc.Layer.extend({
     this._super();
     size = cc.director.getWinSize();
 
+cc.audioEngine.stopMusic();
 
         //スクロールする背景スプライトをインスタンス　スクロール速度:scrollSpeed
         background = new ScrollingBG();
@@ -78,7 +79,12 @@ var game = cc.Layer.extend({
     this.addChild(ScoreText);
     //ScoreText.setPosition(220,480);
     ScoreText.setPosition(cc.p(size.width / 1.3, size.height / 1.1));
-
+/*
+    timecount: function(){
+    time++;
+    ScoreText.setString(time);
+  },
+*/
     //life設定
     LifeText = cc.LabelTTF.create("LIFE:" + LIFE,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     LifeText.setScale(3);
@@ -95,6 +101,11 @@ var game = cc.Layer.extend({
   update: function(dt) {
     //backgroundのscrollメソッドを呼び出す
     background.scroll();
+
+
+    //タイマー開始の宣言をするよ
+    this.schedule(this.timecount, 0);
+
     if (touching) {
       //現在タッチしているX座標と前回の座標の差分をとる
       var deltaX = savedX - detectedX;
@@ -209,12 +220,16 @@ var Asteroid = cc.Sprite.extend({
     if (cc.rectIntersectsRect(bikeBoundingBox, asteroidBoundingBox)
     /* && bike.invulnerability == 0*/) {
       gameLayer.removeAsteroid(this); //アイテムを削除する
+
+      audioEngine.preloadEffect(res.bgm03);
+
       //
       LIFE　-= 1;
       LifeText.setString("LIFE:"+ LIFE);
       if(LIFE == 0){
 //        LIFE = 3;
         //GameOverSceneへ
+        cc.audioEngine.stopMusic();
         cc.director.runScene(new GameOverScene());
       }
       }
@@ -222,10 +237,5 @@ var Asteroid = cc.Sprite.extend({
     if (this.getPosition().y < 1) {
       gameLayer.removeAsteroid(this)
     }
-    this.time += dt;
-    if(this.time >= 1){
-      this.sec++;
-       ScoreText.setString("SCORE"+ sco);
-    }
   },
-});
+  });

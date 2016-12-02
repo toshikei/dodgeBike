@@ -6,10 +6,18 @@ var help1_flg = false;
 var icon1;
 var icon2;
 var help1;
+audioEngine = cc.audioEngine;
+
 
 var select = cc.Layer.extend({
   ctor: function(){
     this._super();
+
+    if (!audioEngine.isMusicPlaying()) {
+      audioEngine.playMusic(res.bgm01, true);
+      cc.audioEngine.setEffectsVolume(0.5);
+    }
+
     var size = cc.director.getWinSize();
     var title_back = new cc.Sprite(res.TitleBG_png);
     title_back.setPosition(cc.p(size.width * 0.5, size.height * 0.5));
@@ -92,15 +100,18 @@ var select = cc.Layer.extend({
  onTouchEnded: function(touch, event) {
    if(start_flg1){
       start_flg1 = false;
+      cc.audioEngine.stopMusic();
       cc.director.runScene(new gameScene());
     }
     if(start_flg2){
        start_flg2 = false;
+       cc.audioEngine.stopMusic();
        cc.director.runScene(new gameScene2());
      }
 
      else if (help1_flg){
         help1_flg = false;
+        cc.audioEngine.stopMusic();
         cc.director.runScene(new helpScene());
       }
      //return true;

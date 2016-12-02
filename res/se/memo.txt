@@ -1,0 +1,15 @@
+魔王魂様
+http://maoudamashii.jokersounds.com/
+
+se_maoudamashii_se_car04 事故音
+
+se_maoudamashii_se_car07 通り過ぎる
+
+bgm_maoudamashii_neorock65 コースBGM
+bgm_maoudamashii_8bit14 コース兼タイトル
+
+bgm_maoudamashii_neorock51 select
+bgm_maoudamashii_8bit13 
+
+bgm_maoudamashii_8bit03 ゲームオーバー
+ 
