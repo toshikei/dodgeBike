@@ -14,7 +14,6 @@ var res = {
     icon2_png : "res/courseicon2.png",
     help_png : "res/help.png",
 
-
     enemy0 : "res/enemy00.png",
     enemy1 : "res/enemy01.png",
     enemy2 : "res/enemy2.png",

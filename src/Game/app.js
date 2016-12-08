@@ -1,5 +1,7 @@
 //app.js
 //レースコースのゲーム画面
+//12月8日時点の作品
+
 var size;
 
 var mylabel;
@@ -77,12 +79,6 @@ var game = cc.Layer.extend({
     this.addChild(ScoreText);
     //ScoreText.setPosition(220,480);
     ScoreText.setPosition(cc.p(size.width / 1.3, size.height / 1.1));
-/*
-    timecount: function(){
-    time++;
-    ScoreText.setString(time);
-  },
-*/
     //life設定
     LifeText = cc.LabelTTF.create("LIFE:" + LIFE,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     LifeText.setScale(3);
@@ -95,6 +91,8 @@ var game = cc.Layer.extend({
    //敵車体の生成で追加（だが、まだ作成していない）
     this.schedule(this.addAsteroid, 1.5);
 
+    this.schedule(this.Time, 1.5);
+
   },
   update: function(dt) {
     //backgroundのscrollメソッドを呼び出す
@@ -102,7 +100,7 @@ var game = cc.Layer.extend({
 
 
     //タイマー開始の宣言をするよ
-    this.schedule(this.timecount, 0);
+    this.schedule(this.timecount, 1);
 
     if (touching) {
       //現在タッチしているX座標と前回の座標の差分をとる
@@ -142,6 +140,10 @@ var game = cc.Layer.extend({
   },
   removeAsteroid: function(asteroid) {
     this.removeChild(asteroid);
+  },
+  Time: function(event) {
+    var timer = new Timer();
+    this.addChild(timer);
   },
 });
 
@@ -235,4 +237,14 @@ var Asteroid = cc.Sprite.extend({
       gameLayer.removeAsteroid(this)
     }
   },
+  });
+
+// タイマー
+  var Timer = cc.Sprite.extend({
+
+    update: function() {
+      this._super();
+      time++;
+      ScoreText.setString(time);
+    },
   });
